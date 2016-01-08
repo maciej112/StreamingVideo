@@ -15,7 +15,6 @@ class FilterService(Service): #klasa usługi musi dziedziczyć po ComssServiceDe
 
     def declare_outputs(self):    #deklaracja wyjść
         self.declare_output("videoOutput", OutputMessageConnector(self)) #deklaracja wyjścia "videoOutput" będącego interfejsem wyjściowym konektora msg_stream_connector
-        self.declare_output("videoSave", OutputMessageConnector(self))
         
     def declare_inputs(self): #deklaracja wejść
         self.declare_input("videoInput", InputMessageConnector(self)) #deklaracja wejścia "videoInput" będącego interfejsem wyjściowym konektora msg_stream_connector
@@ -23,7 +22,6 @@ class FilterService(Service): #klasa usługi musi dziedziczyć po ComssServiceDe
     def run(self):    #główna metoda usługi
         video_input = self.get_input("videoInput")    #obiekt interfejsu wejściowego
         video_output = self.get_output("videoOutput") #obiekt interfejsu wyjściowego
-        video_save = self.get_output("videoSave")
         
         while self.running():   #pętla główna usługi
             try:
@@ -38,8 +36,11 @@ class FilterService(Service): #klasa usługi musi dziedziczyć po ComssServiceDe
 
             if 1 in current_filters:    #sprawdzenie czy parametr "filtersOn" ma wartość 1, czyli czy ma być stosowany filtr
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #zastosowanie filtru COLOR_BGR2GRAY z biblioteki OpenCV na ramce wideo
+            
+            if 2 in current_filters:
+                frame = cv2.blur(frame,(5,5))
+                
             video_output.send(frame.dumps()) #przesłanie ramki za pomocą interfejsu wyjściowego
-            #video_save.send(frame.dumps())
 
 if __name__=="__main__":
     sc = ServiceController(FilterService, "filter_service.json") #utworzenie obiektu kontrolera usługi

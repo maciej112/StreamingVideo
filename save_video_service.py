@@ -16,27 +16,32 @@ class SaveVideoService(Service): #klasa usługi musi dziedziczyć po ComssServic
         super(SaveVideoService, self).__init__() #wywołanie metody inicjalizatora klasy nadrzędnej
     
     def declare_outputs(self): #deklaracja wyjść
-        pass
+        self.declare_output("videoOutput", OutputMessageConnector(self))
 
     def declare_inputs(self): #deklaracja wejść
         self.declare_input("videoInput", InputMessageConnector(self)) #deklaracja wejścia "videoInput" będącego interfejsem wyjściowym konektora msg_stream_connector
-
+        
     def run(self):    #główna metoda usługi
         video_input = self.get_input("videoInput")    #obiekt interfejsu wejściowego
+        video_output = self.get_output("videoOutput")
         input_start = True
+        out = None
 
         while self.running():   #pętla główna usługi
             try:
                 frame_obj = video_input.read()  #odebranie danych z interfejsu wejściowego
-                if input_start:
-                    video_format = self.get_parameter("videoFormat")
-                    fourcc = cv2.VideoWriter_fourcc(*'XVID')
-                    out = cv2.VideoWriter('output.avi',fourcc, video_format.get(0), (video_format.get(1),video_format.get(2)))
-                    input_start = False
+                video_output.send(frame_obj)
             except Exception as e:
                 video_input.close()
-                out.release()
+                if out != None:
+                    out.release()
                 break
+            if input_start:
+                video_format = self.get_parameter("videoFormat")
+                print video_format
+                fourcc = cv2.VideoWriter_fourcc(*'XVID')
+                out = cv2.VideoWriter('output.avi',fourcc, video_format[0], (int(video_format[1]),int(video_format[2])))
+                input_start = False
             frame = np.loads(frame_obj)     #załadowanie ramki do obiektu NumPy
             out.write(frame)
 

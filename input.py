@@ -10,13 +10,16 @@ import Tkinter as tk #import modułu biblioteki Tkinter -- okienka
 service_controller = DevServiceController("filter_service.json") #utworzenie obiektu kontroletra testowego, jako parametr podany jest plik konfiguracji usługi, do której "zaślepka" jest dołączana
 service_controller.declare_connection("videoInput", OutputMessageConnector(service_controller)) #deklaracja interfejsu wyjściowego konektora msg_stream_connector, należy zwrócić uwagę, iż identyfikator musi być zgodny z WEJŚCIEM usługi, do której "zaślepka" jest podłączana
 
+service_controller2 = DevServiceController("save_video_service.json")
 
 def update_all(root, cap, filters):
     read_successful, frame = cap.read() #odczyt obrazu z kamery
     new_filters = set()
     if check1.get()==1: #sprawdzenie czy checkbox był zaznaczony
         new_filters.add(1)
-
+    if check2.get()==1:
+        new_filters.add(2)
+    print new_filters    
     if filters ^ new_filters:
         filters.clear()
         filters.update(new_filters)
@@ -36,15 +39,19 @@ root = tk.Tk()
 root.title("Filters") #utworzenie okienka
 
 cap = cv2.VideoCapture('test.mp4') #"podłączenie" do strumienia wideo z kamerki
-video_format = set()
-video_format.add(cap.get(5))
-video_format.add(cap.get(3))
-video_format.add(cap.get(4))
-service_controller.update_params({"viedoFormat": list(video_format)}) #frame rate, frame widrth, frame height do "videoFormat"
+video_format = list() # format video jako parametr
+video_format.append(cap.get(5))
+video_format.append(cap.get(3))
+video_format.append(cap.get(4))
+service_controller2.update_params({"videoFormat": video_format}) #frame rate, frame widrth, frame height do "videoFormat"
+
 #obsługa checkbox'a
 check1=tk.IntVar()
+check2=tk.IntVar()
 checkbox1 = tk.Checkbutton(root, text="Filter 1", variable=check1)
 checkbox1.pack()
+checkbox2 = tk.Checkbutton(root, text="Filter 2", variable=check2)
+checkbox2.pack()
 
 root.after(0, func=lambda: update_all(root, cap, set())) #dołączenie metody update_all do głównej pętli programu, wynika ze specyfiki TKinter
 root.mainloop()
