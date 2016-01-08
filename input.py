@@ -19,7 +19,11 @@ def update_all(root, cap, filters):
         new_filters.add(1)
     if check2.get()==1:
         new_filters.add(2)
-    print new_filters    
+    if check3.get()==1:
+        new_filters.add(3)
+    if check4.get()==1:
+        new_filters.add(4) 
+     
     if filters ^ new_filters:
         filters.clear()
         filters.update(new_filters)
@@ -48,10 +52,16 @@ service_controller2.update_params({"videoFormat": video_format}) #frame rate, fr
 #obsługa checkbox'a
 check1=tk.IntVar()
 check2=tk.IntVar()
-checkbox1 = tk.Checkbutton(root, text="Filter 1", variable=check1)
+check3=tk.IntVar()
+check4=tk.IntVar()
+checkbox1 = tk.Checkbutton(root, text="Filter Grayscale", variable=check1)
 checkbox1.pack()
-checkbox2 = tk.Checkbutton(root, text="Filter 2", variable=check2)
+checkbox2 = tk.Checkbutton(root, text="Filter Blurring", variable=check2)
 checkbox2.pack()
+checkbox3 = tk.Checkbutton(root, text="Filter Gaussian", variable=check3)
+checkbox3.pack()
+checkbox4 = tk.Checkbutton(root, text="Filter Median", variable=check4)
+checkbox4.pack()
 
 root.after(0, func=lambda: update_all(root, cap, set())) #dołączenie metody update_all do głównej pętli programu, wynika ze specyfiki TKinter
 root.mainloop()

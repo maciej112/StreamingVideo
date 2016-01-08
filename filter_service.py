@@ -40,6 +40,12 @@ class FilterService(Service): #klasa usługi musi dziedziczyć po ComssServiceDe
             if 2 in current_filters:
                 frame = cv2.blur(frame,(5,5))
                 
+            if 3 in current_filters:
+                frame = cv2.GaussianBlur(frame,(5,5),0)
+                
+            if 4 in current_filters:
+                frame = cv2.medianBlur(frame,5)
+                
             video_output.send(frame.dumps()) #przesłanie ramki za pomocą interfejsu wyjściowego
 
 if __name__=="__main__":

@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import Tkinter as tk
-import threading
-
 from ComssServiceDevelopment.connectors.tcp.msg_stream_connector import InputMessageConnector #import modułów konektora msg_stream_connector
 
 from ComssServiceDevelopment.development import DevServiceController #import modułu klasy testowego kontrolera usługi
