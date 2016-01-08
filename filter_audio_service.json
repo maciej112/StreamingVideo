@@ -1,0 +1,19 @@
+{"parametersHost": "localhost:11115",
+"inputs": {
+  "audioInput": {
+    "ip": "127.0.0.1",
+    "port": 10076
+  }
+},
+"outputs": {
+  "audioOutput": {
+    "ip": "127.0.0.1",
+    "port": 10078
+  }
+},
+
+
+  "parameters": {
+    "filtersOn": []
+  }
+}

@@ -7,13 +7,19 @@ from ComssServiceDevelopment.development import DevServiceController #import mod
 import cv2 #import modułu biblioteki OpenCV
 import Tkinter as tk #import modułu biblioteki Tkinter -- okienka
 
-service_controller = DevServiceController("filter_service.json") #utworzenie obiektu kontroletra testowego, jako parametr podany jest plik konfiguracji usługi, do której "zaślepka" jest dołączana
+service_controller = DevServiceController("filter_video_service.json") #utworzenie obiektu kontroletra testowego, jako parametr podany jest plik konfiguracji usługi, do której "zaślepka" jest dołączana
 service_controller.declare_connection("videoInput", OutputMessageConnector(service_controller)) #deklaracja interfejsu wyjściowego konektora msg_stream_connector, należy zwrócić uwagę, iż identyfikator musi być zgodny z WEJŚCIEM usługi, do której "zaślepka" jest podłączana
 
 service_controller2 = DevServiceController("save_video_service.json")
 
+service_controller3 = DevServiceController("filter_audio_service.json")
+service_controller3.declare_connection("audioInput", OutputMessageConnector(service_controller3))
+
 def update_all(root, cap, filters):
     read_successful, frame = cap.read() #odczyt obrazu z kamery
+    ###############################################################
+    # tu ma być czytanie audio frame po framie
+    ###############################################################
     new_filters = set()
     if check1.get()==1: #sprawdzenie czy checkbox był zaznaczony
         new_filters.add(1)
@@ -32,6 +38,10 @@ def update_all(root, cap, filters):
     if read_successful:
         frame_dump = frame.dumps() #zrzut ramki wideo do postaci ciągu bajtów
         service_controller.get_connection("videoInput").send(frame_dump) #wysłanie danych
+        ###############################################################
+        # zamiast tego wysyłąnie frameów audio!!!
+        service_controller3.get_connection("audioInput").send(frame_dump) #wysłanie danych
+        ###############################################################
         root.update()
         root.after(20, func=lambda: update_all(root, cap, filters))
     else:
@@ -41,7 +51,9 @@ def update_all(root, cap, filters):
 
 root = tk.Tk()
 root.title("Filters") #utworzenie okienka
-
+#####################################################################
+# tu ma być wyjęcie audio
+#####################################################################
 cap = cv2.VideoCapture('test.mp4') #"podłączenie" do strumienia wideo z kamerki
 video_format = list() # format video jako parametr
 video_format.append(cap.get(5))

@@ -7,9 +7,9 @@ from ComssServiceDevelopment.service import Service, ServiceController #import m
 import cv2 #import modułu biblioteki OpenCV
 import numpy as np #import modułu biblioteki Numpy
 
-class FilterService(Service): #klasa usługi musi dziedziczyć po ComssServiceDevelopment.service.Service
+class FilterAudioService(Service): #klasa usługi musi dziedziczyć po ComssServiceDevelopment.service.Service
     def __init__(self):            #"nie"konstruktor, inicjalizator obiektu usługi
-        super(FilterService, self).__init__() #wywołanie metody inicjalizatora klasy nadrzędnej
+        super(FilterAudioService, self).__init__() #wywołanie metody inicjalizatora klasy nadrzędnej
         
         self.filters_lock = threading.RLock() #obiekt pozwalający na blokadę wątku
 
@@ -49,6 +49,6 @@ class FilterService(Service): #klasa usługi musi dziedziczyć po ComssServiceDe
             video_output.send(frame.dumps()) #przesłanie ramki za pomocą interfejsu wyjściowego
 
 if __name__=="__main__":
-    sc = ServiceController(FilterService, "filter_service.json") #utworzenie obiektu kontrolera usługi
+    sc = ServiceController(FilterAudioService, "filter_video_service.json") #utworzenie obiektu kontrolera usługi
     sc.start() #uruchomienie usługi
 
