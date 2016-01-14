@@ -9,7 +9,6 @@ import threading
 from ComssServiceDevelopment.connectors.tcp.msg_stream_connector import InputMessageConnector, OutputMessageConnector #import modułów konektora msg_stream_connector
 
 from ComssServiceDevelopment.service import Service, ServiceController #import modułów klasy bazowej Service oraz kontrolera usługi
-import cv2 #import modułu biblioteki OpenCV
 import numpy as np #import modułu biblioteki Numpy
 
 class FilterAudioService(Service): #klasa usługi musi dziedziczyć po ComssServiceDevelopment.service.Service

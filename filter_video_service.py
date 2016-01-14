@@ -36,15 +36,16 @@ class FilterAudioService(Service): #klasa usługi musi dziedziczyć po ComssServ
 
             if 1 in current_filters:    #sprawdzenie czy parametr "filtersOn" ma wartość 1, czyli czy ma być stosowany filtr
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #zastosowanie filtru COLOR_BGR2GRAY z biblioteki OpenCV na ramce wideo
+                frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR) # by można było zapisać jako obraz kolorowy
             
             if 2 in current_filters:
-                frame = cv2.blur(frame,(5,5))
+                frame = cv2.blur(frame,(7,7))
                 
             if 3 in current_filters:
                 frame = cv2.GaussianBlur(frame,(5,5),0)
                 
             if 4 in current_filters:
-                frame = cv2.medianBlur(frame,5)
+                frame = cv2.medianBlur(frame,9) ## nieparzysta liczba
                 
             video_output.send(frame.dumps()) #przesłanie ramki za pomocą interfejsu wyjściowego
 

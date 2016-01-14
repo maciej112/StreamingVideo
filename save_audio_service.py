@@ -8,8 +8,6 @@ Created on 8 sty 2016
 from ComssServiceDevelopment.connectors.tcp.msg_stream_connector import InputMessageConnector #import modułów konektora msg_stream_connector
 
 from ComssServiceDevelopment.service import Service, ServiceController #import modułów klasy bazowej Service oraz kontrolera usługi
-import cv2 #import modułu biblioteki OpenCV
-import numpy as np #import modułu biblioteki Numpy
 
 class SaveVideoService(Service): #klasa usługi musi dziedziczyć po ComssServiceDevelopment.service.Service
     def __init__(self):            #"nie"konstruktor, inicjalizator obiektu usługi

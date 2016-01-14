@@ -6,6 +6,7 @@ from ComssServiceDevelopment.development import DevServiceController #import mod
 
 import cv2 #import modułu biblioteki OpenCV
 import Tkinter as tk #import modułu biblioteki Tkinter -- okienka
+import subprocess
 
 service_controller = DevServiceController("filter_video_service.json") #utworzenie obiektu kontroletra testowego, jako parametr podany jest plik konfiguracji usługi, do której "zaślepka" jest dołączana
 service_controller.declare_connection("videoInput", OutputMessageConnector(service_controller)) #deklaracja interfejsu wyjściowego konektora msg_stream_connector, należy zwrócić uwagę, iż identyfikator musi być zgodny z WEJŚCIEM usługi, do której "zaślepka" jest podłączana
@@ -54,6 +55,9 @@ root.title("Filters") #utworzenie okienka
 #####################################################################
 # tu ma być wyjęcie audio
 #####################################################################
+command = "ffmpeg -y -i test.mp4 -ab 160k -ac 2 -ar 44100 -vn output.wav"
+subprocess.call(command, shell=True) # prowizoryczne wyjęcie audio za pomocą ffmpeg
+
 cap = cv2.VideoCapture('test.mp4') #"podłączenie" do strumienia wideo z kamerki
 video_format = list() # format video jako parametr
 video_format.append(cap.get(5))

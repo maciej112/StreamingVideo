@@ -14,6 +14,8 @@
 #### 5. Download FFMpeg:
 -  http://ffmpeg.zeranoe.com/builds/
 
-#### 6. Copy n paste opencv_ffmpeg.dll, opencv_ffmpeg_64.dll from *OpenCV\opencv\sources\3rdparty\ffmpeg* to *C:\Python27*
+#### 6. Add C:\ffmpeg\bin to your PATH variable
 
-#### 7. Rename opencv_ffmpeg.dll, opencv_ffmpeg_64.dll to opencv_ffmpegXYZ.dll, opencv_ffmpeg_64XYZ.dll where X.Y.Z is OpenCV version
+#### 7. Copy n paste opencv_ffmpeg.dll, opencv_ffmpeg_64.dll from *OpenCV\opencv\sources\3rdparty\ffmpeg* to *C:\Python27*
+
+#### 8. Rename opencv_ffmpeg.dll, opencv_ffmpeg_64.dll to opencv_ffmpegXYZ.dll, opencv_ffmpeg_64XYZ.dll where X.Y.Z is OpenCV version
